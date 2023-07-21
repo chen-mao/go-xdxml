@@ -1,0 +1,61 @@
+# Copyright (c) 2020, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+--- 
+GENERATOR:
+  PackageName: xdxml
+  PackageDescription: "Package XDXML bindings"
+  Includes: ["xdxml.h"]
+  FlagGroups:
+    - {name: "LDFLAGS", flags: ["-Wl,--unresolved-symbols=ignore-in-object-files"]}
+PARSER:
+  SourcesPaths: ["xdxml.h"]
+TRANSLATOR:
+  ConstRules:
+    defines: eval
+    enum: eval
+  PtrTips:
+    function:
+      - {target: "^xdxml_", default: "sref"}
+  MemTips:
+    - {target: "^node_", default: "raw"}
+    - {target: "^xdx_", default: "raw"}
+  Rules:
+    const:
+      - {action: accept, from: "^MAX_"}
+      - {action: accept, from: "PARAMETER_PAGE_OFFSET"}
+      - {action: accept, from: "FW_GLOABL_STRUCT_OFFSET"}
+      - {action: accept, from: "CMCU_VARS_OFFSET"}
+      - {action: accept, from: "RET_SIZE"}
+      - {action: accept, from: "PROCESS_NAME_LEN"}
+      - {action: accept, from: "^XDXML_"}
+      - {action: accept, from: "^xdxml_"}
+      - {action: replace, from: "^XDXML_"}
+      - {action: replace, from: "^xdxml_"}
+      - {action: replace, from: "_t$"}
+      - {transform: export}
+    type:
+      - {action: accept, from: "^node_"}
+      - {action: accept, from: "^xdx_"}
+      - {action: replace, from: "xdx_"}
+      - {action: replace, from: "_st$"}
+      - {action: accept, from: "^XDXML_"}
+      - {action: accept, from: "^xdxml_"}
+      - {action: replace, from: "^XDXML_"}
+      - {action: replace, from: "^xdxml_"}
+      - {action: replace, from: "_t$"}
+      - {transform: export}
+    function:
+      - {action: accept, from: "^xdxml_"}
+      - {transform: unexport}
