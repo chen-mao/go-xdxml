@@ -10,12 +10,12 @@ import (
 func main() {
 	ret := xdxml.Init()
 	if ret != xdxml.SUCCESS {
-		log.Fatalf("Unable to initialize NVML: %v", ret)
+		log.Fatalf("Unable to initialize XDXML: %v", ret)
 	}
 	defer func() {
 		ret := xdxml.Shutdown()
 		if ret != xdxml.SUCCESS {
-			log.Fatalf("Unable to shutdown NVML: %v", ret)
+			log.Fatalf("Unable to shutdown XDXML: %v", ret)
 		}
 	}()
 
@@ -30,6 +30,12 @@ func main() {
 		if ret != xdxml.SUCCESS {
 			log.Fatalf("Unable to get device at index %d: %v", i, ret)
 		}
+
+		ID, ret := device.GetMinorNumber()
+		if ret != xdxml.SUCCESS {
+			log.Fatalf("Unable to get id of device at index %v: %v", ID, ret)
+		}
+		fmt.Printf("ID: %v\n", ID)
 
 		uuid, ret := device.GetUUID()
 		if ret != xdxml.SUCCESS {

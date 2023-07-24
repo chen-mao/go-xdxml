@@ -15,7 +15,7 @@ extern "C" {
 #define CMCU_VARS_OFFSET       0x6FF000   //7MB-4KB
 
 /**
- * Buffer size guaranteed to be large enough for \ref nvmlDeviceGetName
+ * Buffer size guaranteed to be large enough for \ref xdxmlDeviceGetName
  */
 #define XDXML_DEVICE_NAME_BUFFER_SIZE  64
 
@@ -184,6 +184,18 @@ xdxml_return_t xdxml_device_get_handle_by_index(unsigned int index, xdx_device_t
  *         - \ref XDXML_SUCCESS         successful completion          
  */
 xdxml_return_t xdxml_device_get_uuid(xdx_device_t device);
+
+/**
+ * 获得GPU的次设备号即minor number，在XDX GPU中，minor number即用index编号来指代
+ *
+ *
+ * @param device                        A structure used to save device information
+ * @param minor_num                     A poiter used to save gpu minor_num    
+ * 
+ * @return
+ *         - \ref XDXML_SUCCESS         successful completion          
+ */
+xdxml_return_t xdxml_device_get_minor_number(xdx_device_t device,int *minor_num);
 
 #ifdef __cplusplus
 }
