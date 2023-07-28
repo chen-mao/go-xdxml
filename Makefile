@@ -16,6 +16,7 @@ $(PKG_BINDINGS_DIR): $(SOURCES)
 	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/xdxml.yml
 	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
 	cp $(GEN_BINDINGS_DIR)/xdxml.h $(PKG_BINDINGS_DIR)
+#	patch $(PKG_BINDINGS_DIR)/xdxml.h $(GEN_BINDINGS_DIR)/xdxml.h.patch
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \

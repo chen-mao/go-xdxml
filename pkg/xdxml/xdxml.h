@@ -87,7 +87,7 @@ typedef struct node_path_st{
     char max_link_width[256];
 } node_path_st;
 
-typedef struct xdx_device_st{
+struct xdx_device_st{
     struct node_path_st node_path;
     unsigned int index;
     char architecture[64];
@@ -117,7 +117,11 @@ typedef struct xdx_device_st{
     char vbios_version[64];                         //!< GPU vbios版本号
     char fw_ver[64];                                //!< 显卡固件版本 
     unsigned long long fb_total;// 显存大小    
-}xdx_device_t;
+};
+
+typedef struct {
+    struct xdx_device_st* handle;
+} xdx_device_t;
 
 /**
  * 该函数位于api调用流程的前端，调用其它api前应首先调用该函数初始化so库。该函数会确认驱动节点状态，若初始化失败，
@@ -158,6 +162,27 @@ xdxml_return_t xdxml_shutdown();
 xdxml_return_t xdxml_device_get_count(unsigned int *device_count);
 
 /**
+ * 获取GPU产品名称，此处产品名称用架构指代，如：PANGU
+ *
+ * @param device                        A structure used to save device information
+ * @param device_name                   A poiter used to save gpu product name    
+ * 
+ * @return
+ *         - \ref XDXML_SUCCESS         successful completion          
+ */
+xdxml_return_t xdxml_device_get_product_name(xdx_device_t device,char *device_name);
+
+/***************************************************************************************************/
+/** @defgroup xdxml_device_queries Device Queries
+ * This chapter describes that queries that XDXML can perform against each device.
+ * In each case the device is identified with an xdxml_device_t handle. This handle is obtained by  
+ * calling one of \ref xdxml_device_get_handle_by_index(), \ref xdxml_device_get_handle_by_serial(),
+ * \ref xdxml_device_get_handle_by_pci_bus_id(). or \ref xdxml_device_get_handle_by_uuid(). 
+ *  @{
+ */
+/***************************************************************************************************/
+
+/**
 * 通过index参数获取对应的GPU device结构体，并用于后续其他api的传参调用。device结构体中包含对应gpu所拥有的
 * 如文件节点路径、pcie信息、序列号等必要信息。index索引的范围 >= 0且< device_num即识别到的所有gpu个数，device_num请使用
 * xdxml_device_get_count()函数获取。
@@ -173,7 +198,7 @@ xdxml_return_t xdxml_device_get_count(unsigned int *device_count);
 *         - \ref XDXML_SUCCESS                 if \a deviceCount has been set
 *         - \ref XDXML_ERROR_INVALID_ARGUMENT  if \a deviceCount is NULL
 */
-xdxml_return_t xdxml_device_get_handle_by_index(unsigned int index, xdx_device_t *device);
+xdxml_return_t xdxml_device_get_handle_by_index(unsigned int index, xdx_device_t* device);
 
 /**
  * Get gpu uuid value

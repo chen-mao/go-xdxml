@@ -48,12 +48,12 @@ TRANSLATOR:
     type:
       - {action: accept, from: "^node_"}
       - {action: accept, from: "^xdx_"}
-      - {action: replace, from: "xdx_"}
-      - {action: replace, from: "_st$"}
       - {action: accept, from: "^XDXML_"}
       - {action: accept, from: "^xdxml_"}
+      - {action: replace, from: "^xdx_"}
       - {action: replace, from: "^XDXML_"}
       - {action: replace, from: "^xdxml_"}
+      - {action: replace, from: "_st$"}
       - {action: replace, from: "_t$"}
       - {transform: export}
     function:
