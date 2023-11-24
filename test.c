@@ -17,6 +17,7 @@ int main(){
     xdxml_return_t (*xdxml_device_get_count)(unsigned int*) = NULL;
     xdxml_return_t (*xdxml_device_get_handle_by_index)(unsigned int, xdx_device_t *) = NULL;
     xdxml_return_t (*xdxml_device_get_product_name)(xdx_device_t, char*) = NULL;
+    xdxml_return_t (*xdxml_device_get_minor_number)(xdx_device_t, int *) = NULL;
     xdxml_return_t (*xdxml_shutdown)(void) = NULL;
 
     handle = dlopen("/opt/xdxgpu/lib/x86_64-linux-gnu/libxdxgpu-ml.so",RTLD_LAZY);
@@ -36,6 +37,12 @@ int main(){
     xdxml_device_get_handle_by_index = (xdxml_return_t(*)(unsigned int, xdx_device_t *))dlsym(handle,"xdxml_device_get_handle_by_index");
     if(!xdxml_device_get_handle_by_index){
         printf("Open failed: There no function named xdxml_device_get_handle_by_index in so.\n");
+        return 0;
+    }
+
+    xdxml_device_get_minor_number = (xdxml_return_t(*)(xdx_device_t, int*))dlsym(handle,"xdxml_device_get_minor_number");
+    if(!xdxml_device_get_minor_number){
+        printf("Open failed: There no function named xdxml_device_get_minor_number in so.\n");
         return 0;
     }
 
@@ -66,6 +73,14 @@ int main(){
         }
         printf("\nproduct_name is : %s\n", name);
 
+        int minor_number;
+        result = (*xdxml_device_get_minor_number)(device, &minor_number);
+        if (XDXML_SUCCESS != result)
+        {
+            printf("Failed to get minor_number of device.");
+            return -1;
+        }
+        printf("\nminor_number is : %d\n", minor_number);
     }
        
     result = (*xdxml_shutdown)();
