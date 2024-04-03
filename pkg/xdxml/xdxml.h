@@ -208,7 +208,7 @@ xdxml_return_t xdxml_device_get_handle_by_index(unsigned int index, xdx_device_t
  * @return
  *         - \ref XDXML_SUCCESS         successful completion          
  */
-xdxml_return_t xdxml_device_get_uuid(xdx_device_t device);
+xdxml_return_t xdxml_device_get_uuid(xdx_device_t device, char* uuid);
 
 /**
  * 获得GPU的次设备号即minor number，在XDX GPU中，minor number即用index编号来指代

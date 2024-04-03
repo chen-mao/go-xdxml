@@ -36,11 +36,13 @@ func (Device Device) GetProductName(name []byte) Return {
 
 // xdxml.DeviceGetUUID()
 func DeviceGetUUID(Device Device) (string, Return) {
-	ret := xdxml_device_get_uuid(Device)
-	var uuidStr string
-	for _, num := range Device.Handle.uuid {
-		uuidStr += string(num)
-	}
+	var uuidBytes [8]byte
+	ret := xdxml_device_get_uuid(Device, &uuidBytes[0])
+	// var uuidStr string
+	// for _, num := range Device.Handle.uuid {
+	// 	uuidStr += string(num)
+	// }
+	uuidStr := string(uuidBytes[:])
 	return uuidStr, ret
 }
 
