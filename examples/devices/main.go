@@ -46,7 +46,10 @@ func main() {
 		fmt.Printf("name: %s\n", name)
 
 		uuid, ret := device.GetUUID()
-		fmt.Printf("len(uuid): %v\n", len(uuid))
+		if ret != xdxml.SUCCESS {
+			log.Fatalf("Unable to get uuid of device at uuid %d: %v", i, ret)
+		}
+		fmt.Printf("len(uuid): %v, uuid: %v\n", len(uuid), uuid)
 
 		if ret != xdxml.SUCCESS {
 			log.Fatalf("Unable to get uuid of device at index %d: %v", i, ret)
