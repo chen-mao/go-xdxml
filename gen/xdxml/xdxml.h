@@ -236,6 +236,22 @@ xdxml_return_t xdxml_device_get_uuid(xdx_device_t device, char* uuid);
  */
 xdxml_return_t xdxml_device_get_minor_number(xdx_device_t device,int *minor_num);
 
+/**
+ * 获取对应GPU的PCIe相关数据。该函数会将数据填充至传入的结构体中，并返回是否处理成功。
+ * 
+ * 详见 \ref  xdxml_pci_info_t 查看可以获取的pcie数据。
+ * 
+ * @brief                                       get the dbdf of PCI，domain:bus:device.function
+ *
+ * @param device                                The identifier of the target device
+ * @param pci                                   Reference in which to return the PCI info
+ * 
+ * @return 
+ *         - \ref XDXML_SUCCESS                 if \a name has been set
+ *         - \ref XDXML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a name is NULL
+ */
+xdxml_return_t xdxml_device_get_pci_info(xdx_device_t device, xdx_pci_info_t *pci);
+
 #ifdef __cplusplus
 }
 #endif //__cplusplus

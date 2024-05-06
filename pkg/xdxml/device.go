@@ -49,3 +49,9 @@ func DeviceGetUUID(Device Device) (string, Return) {
 func (Device Device) GetUUID() (string, Return) {
 	return DeviceGetUUID(Device)
 }
+
+func (Device Device) GetPciInfo() (Pci_info, Return) {
+	var pci Pci_info
+	ret := xdxml_device_get_pci_info(Device, &pci)
+	return pci, ret
+}
