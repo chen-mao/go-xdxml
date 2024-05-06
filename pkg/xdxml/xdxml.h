@@ -124,6 +124,20 @@ typedef struct {
 } xdx_device_t;
 
 /**
+ * PCI information about a GPU device.
+ */
+typedef struct xdx_pci_info_st
+{
+    uint64_t domain;             //!< The PCI domain on which the device's bus resides, 0 to 0xffffffff
+    uint64_t bus;                //!< The bus on which the device resides, 0 to 0xff
+    uint64_t device;             //!< The device's id on the bus, 0 to 31
+    uint64_t bdfid;              //bus device function id
+    uint64_t func;
+    char pci_dbdf[64];
+    char bus_id[XDXML_DEVICE_PCI_BUS_ID_BUFFER_SIZE];
+} xdx_pci_info_t;
+
+/**
  * 该函数位于api调用流程的前端，调用其它api前应首先调用该函数初始化so库。该函数会确认驱动节点状态，若初始化失败，
  * 则无法通过get_handle获取device结构体。
  *

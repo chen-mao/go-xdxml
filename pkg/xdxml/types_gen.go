@@ -17,3 +17,13 @@ type Node_path struct {
 type Device struct {
 	Handle *_Ctype_struct_xdx_device_st
 }
+
+type Pci_info struct {
+	Domain   uint64
+	Bus      uint64
+	Device   uint64
+	Bdfid    uint64
+	Func     uint64
+	Pci_dbdf [64]int8
+	Bus_id   [32]int8
+}
