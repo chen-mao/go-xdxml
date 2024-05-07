@@ -137,6 +137,20 @@ typedef struct xdx_pci_info_st
     char bus_id[XDXML_DEVICE_PCI_BUS_ID_BUFFER_SIZE];
 } xdx_pci_info_t;
 
+/** 
+ * Memory allocation information for a device.
+ */
+typedef struct xdx_memory_st 
+{
+    unsigned long long fb_free;                     //!< Unallocated FB memory (in bytes)
+    unsigned long long fb_total;                    //!< Total installed FB memory (in bytes)
+    unsigned long long fb_used;                     //!< Allocated FB memory (in bytes). Note that the driver/GPU always sets aside a small amount of memory for bookkeeping
+    unsigned long long sys_free;                    //!< Unallocated system memory (in bytes)
+    unsigned long long sys_total;                   //!< Total installed system memory (in bytes) 
+    unsigned long long sys_used;                    //!< Allocated system memory (in bytes). Note that the driver/GPU always sets aside a small amount of memory for bookkeeping
+    
+}xdx_memory_t;
+
 /**
  * 该函数位于api调用流程的前端，调用其它api前应首先调用该函数初始化so库。该函数会确认驱动节点状态，若初始化失败，
  * 则无法通过get_handle获取device结构体。
@@ -251,6 +265,21 @@ xdxml_return_t xdxml_device_get_minor_number(xdx_device_t device,int *minor_num)
  *         - \ref XDXML_ERROR_INVALID_ARGUMENT  if \a device is invalid, or \a name is NULL
  */
 xdxml_return_t xdxml_device_get_pci_info(xdx_device_t device, xdx_pci_info_t *pci);
+
+/**
+ * 该函数可同时获取fb memory和sys memory的存储余量、总量、用量，详见 \ref xdx_memory_t
+ * 
+ * Note: 使用该函数前，请提前为memory变量分配内存空间
+ * 如：xdx_memory_t memory_t = (xdx_memory_t)malloc(sizeof(struct xdx_memory_st));
+ * 
+ * @brief                               获取memory使用情况，并将结果保存在传入的memory结构体变量中。
+ * @param device                        A structure used to save device information
+ * @param memory                        A struct pointer used to save memory info        
+ * 
+ * @return
+ *         - \ref XDXML_SUCCESS         successful completion          
+ */
+xdxml_return_t xdxml_device_get_mem_info(xdx_device_t device, xdx_memory_t *memory);
 
 #ifdef __cplusplus
 }

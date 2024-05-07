@@ -27,3 +27,12 @@ type Pci_info struct {
 	Pci_dbdf [64]int8
 	Bus_id   [32]int8
 }
+
+type Memory struct {
+	Fb_free   uint64
+	Fb_total  uint64
+	Fb_used   uint64
+	Sys_free  uint64
+	Sys_total uint64
+	Sys_used  uint64
+}

@@ -81,6 +81,11 @@ func main() {
 		fmt.Printf("demDeviceNodes: %s\n", drmDeviceNodes)
 		// fmt.Printf("Test: %s\n", TestgetBusID())
 
+		memory_st, ret := device.GetMemoryInfo()
+		if ret != xdxml.SUCCESS {
+			log.Fatalf("Unable to get mem of device at index %v: %v", ID, ret)
+		}
+		fmt.Printf("memory: %v MB\n", memory_st.Fb_total/(1024*1024))
 	}
 }
 

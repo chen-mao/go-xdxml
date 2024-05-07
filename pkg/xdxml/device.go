@@ -55,3 +55,9 @@ func (Device Device) GetPciInfo() (Pci_info, Return) {
 	ret := xdxml_device_get_pci_info(Device, &pci)
 	return pci, ret
 }
+
+func (Device Device) GetMemoryInfo() (Memory, Return) {
+	var memory_st Memory
+	ret := xdxml_device_get_mem_info(Device, &memory_st)
+	return memory_st, ret
+}
